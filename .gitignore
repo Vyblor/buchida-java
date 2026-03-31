@@ -1,6 +1,6 @@
-node_modules/
-dist/
-coverage/
+.gradle/
+build/
 .env
 .DS_Store
 *.log
+*.class
