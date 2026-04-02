@@ -1,6 +1,6 @@
 <div align="center">
   <img src="assets/logo-black.svg" alt="buchida" width="280" />
-  <p><strong>Developer-first email API with CJK support</strong></p>
+  <p><strong>CJKサポートを備えた開発者向けメールAPI</strong></p>
 
   [English](README.md) | [한국어](README.ko.md) | [日本語](README.ja.md) | [中文](README.zh.md)
 
@@ -9,9 +9,9 @@
 
 ---
 
-The official Java SDK for the [buchida](https://buchida.com) email API.
+[buchida](https://buchida.com)メールAPIの公式Java SDKです。
 
-## Installation
+## インストール
 
 ### Gradle
 
@@ -29,7 +29,7 @@ implementation 'io.buchida:buchida-java:0.1.0'
 </dependency>
 ```
 
-## Quick Start
+## クイックスタート
 
 ```java
 import io.buchida.Buchida;
@@ -40,25 +40,25 @@ var buchida = new Buchida("bc_live_xxxxxxxxxxxxxxxxxxxxx");
 var result = buchida.emails().send(Map.of(
     "from", "hello@yourdomain.com",
     "to", "user@example.com",
-    "subject", "Welcome to buchida!",
-    "html", "<h1>Hello!</h1><p>Welcome aboard.</p>"
+    "subject", "buchidaへようこそ！",
+    "html", "<h1>こんにちは！</h1><p>ご登録ありがとうございます。</p>"
 ));
 
-System.out.println("Email sent: " + result.get("id"));
+System.out.println("メール送信完了: " + result.get("id"));
 ```
 
-## Features
+## 特徴
 
 - Java 17+
-- Zero dependencies (`java.net.http.HttpClient`)
-- Typed exception hierarchy
+- 依存関係ゼロ（`java.net.http.HttpClient`）
+- 型付き例外階層
 
-## Documentation
+## ドキュメント
 
-- [Quick Start](https://buchida.com/docs/quickstart)
-- [API Reference](https://buchida.com/docs/sending-email)
+- [クイックスタート](https://buchida.com/ja/docs/quickstart)
+- [APIリファレンス](https://buchida.com/ja/docs/sending-email)
 - [GitHub](https://github.com/Vyblor/buchida-java)
 
-## License
+## ライセンス
 
 MIT

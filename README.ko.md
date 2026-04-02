@@ -1,6 +1,6 @@
 <div align="center">
   <img src="assets/logo-black.svg" alt="buchida" width="280" />
-  <p><strong>Developer-first email API with CJK support</strong></p>
+  <p><strong>CJK 지원을 갖춘 개발자 중심 이메일 API</strong></p>
 
   [English](README.md) | [한국어](README.ko.md) | [日本語](README.ja.md) | [中文](README.zh.md)
 
@@ -9,9 +9,9 @@
 
 ---
 
-The official Java SDK for the [buchida](https://buchida.com) email API.
+[buchida](https://buchida.com) 이메일 API의 공식 Java SDK입니다.
 
-## Installation
+## 설치
 
 ### Gradle
 
@@ -29,7 +29,7 @@ implementation 'io.buchida:buchida-java:0.1.0'
 </dependency>
 ```
 
-## Quick Start
+## 빠른 시작
 
 ```java
 import io.buchida.Buchida;
@@ -40,25 +40,25 @@ var buchida = new Buchida("bc_live_xxxxxxxxxxxxxxxxxxxxx");
 var result = buchida.emails().send(Map.of(
     "from", "hello@yourdomain.com",
     "to", "user@example.com",
-    "subject", "Welcome to buchida!",
-    "html", "<h1>Hello!</h1><p>Welcome aboard.</p>"
+    "subject", "buchida에 오신 것을 환영합니다!",
+    "html", "<h1>안녕하세요!</h1><p>가입을 환영합니다.</p>"
 ));
 
-System.out.println("Email sent: " + result.get("id"));
+System.out.println("이메일 발송 완료: " + result.get("id"));
 ```
 
-## Features
+## 주요 기능
 
 - Java 17+
-- Zero dependencies (`java.net.http.HttpClient`)
-- Typed exception hierarchy
+- 의존성 없음 (`java.net.http.HttpClient`)
+- 타입 기반 예외 계층 구조
 
-## Documentation
+## 문서
 
-- [Quick Start](https://buchida.com/docs/quickstart)
-- [API Reference](https://buchida.com/docs/sending-email)
+- [빠른 시작 가이드](https://buchida.com/ko/docs/quickstart)
+- [API 레퍼런스](https://buchida.com/ko/docs/sending-email)
 - [GitHub](https://github.com/Vyblor/buchida-java)
 
-## License
+## 라이선스
 
 MIT
