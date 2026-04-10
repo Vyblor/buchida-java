@@ -1,25 +1,10 @@
-<div align="center">
-  <img src="assets/logo-black.svg" alt="buchida" width="280" />
-  <p><strong>Developer-first email API with CJK support</strong></p>
+# io.buchida
 
-  [English](README.md) | [한국어](README.ko.md) | [日本語](README.ja.md) | [中文](README.zh.md)
+**buchida Java SDK — Email API for AI agents**
 
-  [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-</div>
+io.buchida is the official Java SDK for **buchida** — an email API built for AI agents. buchida ships a CLI, an MCP server, and SDKs in 5 languages (Node, Python, Go, Ruby, Java), all sharing the same REST API surface. `@buchida/email` templates render Korean, Japanese, and Chinese natively.
 
----
-
-The official Java SDK for the [buchida](https://buchida.com) email API.
-
-## Installation
-
-### Gradle
-
-```groovy
-implementation 'io.buchida:buchida-java:0.1.0'
-```
-
-### Maven
+## Install
 
 ```xml
 <dependency>
@@ -29,35 +14,37 @@ implementation 'io.buchida:buchida-java:0.1.0'
 </dependency>
 ```
 
-## Quick Start
+## Send your first email
 
 ```java
 import io.buchida.Buchida;
-import java.util.Map;
 
-var buchida = new Buchida("bc_live_xxxxxxxxxxxxxxxxxxxxx");
+Buchida buchida = new Buchida(System.getenv("BUCHIDA_API_KEY"));
 
-var result = buchida.emails().send(Map.of(
-    "from", "hello@yourdomain.com",
-    "to", "user@example.com",
-    "subject", "Welcome to buchida!",
-    "html", "<h1>Hello!</h1><p>Welcome aboard.</p>"
-));
-
-System.out.println("Email sent: " + result.get("id"));
+buchida.emails().send(new SendEmailRequest.Builder()
+    .from("hello@yourapp.com")
+    .to("user@example.com")
+    .subject("Hello")
+    .html("<h1>Welcome</h1>")
+    .build());
 ```
-
-## Features
-
-- Java 17+
-- Zero dependencies (`java.net.http.HttpClient`)
-- Typed exception hierarchy
 
 ## Documentation
 
-- [Quick Start](https://buchida.com/docs/quickstart)
-- [API Reference](https://buchida.com/docs/sending-email)
-- [GitHub](https://github.com/Vyblor/buchida-java)
+Full docs: **[buchida.com/docs](https://buchida.com/docs)**
+
+- API reference: https://buchida.com/docs/api-reference
+- Quickstart guide: https://buchida.com/docs/quickstart
+- CJK email templates: https://buchida.com/docs/templates
+- MCP server setup: https://buchida.com/docs/mcp
+- CLI reference: https://buchida.com/docs/cli
+
+## Links
+
+- **Website:** [buchida.com](https://buchida.com)
+- **Documentation:** [buchida.com/docs](https://buchida.com/docs)
+- **Pricing:** [buchida.com/pricing](https://buchida.com/pricing)
+- **GitHub:** https://github.com/Vyblor/buchida-java
 
 ## License
 
