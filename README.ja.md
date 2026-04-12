@@ -1,25 +1,17 @@
 <div align="center">
   <img src="assets/logo-black.svg" alt="buchida" width="280" />
-  <p><strong>CJKサポートを備えた開発者向けメールAPI</strong></p>
+  <p><strong>buchida Java SDK — AI エージェントのためのメール API</strong></p>
 
-  [English](README.md) | [한국어](README.ko.md) | [日本語](README.ja.md) | [中文](README.zh.md)
+  [English](README.md) | [한국어](README.ko.md) | [**日本語**](README.ja.md) | [中文](README.zh.md)
 
   [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 </div>
 
 ---
 
-[buchida](https://buchida.com)メールAPIの公式Java SDKです。
+io.buchida は AI エージェントのために作られたメール API の公式 Java SDK です。buchida は CLI、MCP サーバー、そして 5 言語の SDK (Node、Python、Go、Ruby、Java) を提供しており、すべて同じ REST API 表面を共有しています。`@buchida/email` テンプレートは韓国語、日本語、中国語をネイティブにレンダリングします。
 
 ## インストール
-
-### Gradle
-
-```groovy
-implementation 'io.buchida:buchida-java:0.1.0'
-```
-
-### Maven
 
 ```xml
 <dependency>
@@ -29,35 +21,37 @@ implementation 'io.buchida:buchida-java:0.1.0'
 </dependency>
 ```
 
-## クイックスタート
+## 最初のメールを送信
 
 ```java
 import io.buchida.Buchida;
-import java.util.Map;
 
-var buchida = new Buchida("bc_live_xxxxxxxxxxxxxxxxxxxxx");
+Buchida buchida = new Buchida(System.getenv("BUCHIDA_API_KEY"));
 
-var result = buchida.emails().send(Map.of(
-    "from", "hello@yourdomain.com",
-    "to", "user@example.com",
-    "subject", "buchidaへようこそ！",
-    "html", "<h1>こんにちは！</h1><p>ご登録ありがとうございます。</p>"
-));
-
-System.out.println("メール送信完了: " + result.get("id"));
+buchida.emails().send(new SendEmailRequest.Builder()
+    .from("hello@yourapp.com")
+    .to("user@example.com")
+    .subject("こんにちは")
+    .html("<h1>ようこそ</h1>")
+    .build());
 ```
-
-## 特徴
-
-- Java 17+
-- 依存関係ゼロ（`java.net.http.HttpClient`）
-- 型付き例外階層
 
 ## ドキュメント
 
-- [クイックスタート](https://buchida.com/ja/docs/quickstart)
-- [APIリファレンス](https://buchida.com/ja/docs/sending-email)
-- [GitHub](https://github.com/Vyblor/buchida-java)
+完全なドキュメント: **[buchida.com/docs](https://buchida.com/docs)**
+
+- API リファレンス: https://buchida.com/docs/api-reference
+- クイックスタートガイド: https://buchida.com/docs/quickstart
+- CJK メールテンプレート: https://buchida.com/docs/templates
+- MCP サーバーセットアップ: https://buchida.com/docs/mcp
+- CLI リファレンス: https://buchida.com/docs/cli
+
+## リンク
+
+- **ウェブサイト:** [buchida.com](https://buchida.com)
+- **ドキュメント:** [buchida.com/docs](https://buchida.com/docs)
+- **料金:** [buchida.com/pricing](https://buchida.com/pricing)
+- **GitHub:** https://github.com/Vyblor/buchida-java
 
 ## ライセンス
 

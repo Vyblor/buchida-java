@@ -1,6 +1,13 @@
-# io.buchida
+<div align="center">
+  <img src="assets/logo-black.svg" alt="buchida" width="280" />
+  <p><strong>buchida Java SDK — Email API for AI agents</strong></p>
 
-**buchida Java SDK — Email API for AI agents**
+  [**English**](README.md) | [한국어](README.ko.md) | [日本語](README.ja.md) | [中文](README.zh.md)
+
+  [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+</div>
+
+---
 
 io.buchida is the official Java SDK for **buchida** — an email API built for AI agents. buchida ships a CLI, an MCP server, and SDKs in 5 languages (Node, Python, Go, Ruby, Java), all sharing the same REST API surface. `@buchida/email` templates render Korean, Japanese, and Chinese natively.
 
