@@ -11,9 +11,9 @@ import java.util.Map;
 
 public class Buchida {
 
-    private static final String DEFAULT_BASE_URL = "https://api.buchida.com";
+    private static final String DEFAULT_BASE_URL = "https://api.buchida.com/v1";
     private static final Duration DEFAULT_TIMEOUT = Duration.ofSeconds(30);
-    private static final String VERSION = "0.1.0";
+    private static final String VERSION = "0.2.0";
 
     private final String apiKey;
     private final String baseUrl;
@@ -108,6 +108,20 @@ public class Buchida {
         }
     }
 
+    /**
+     * Extracts the item list from a list response. The API answers {@code {"data": [...]}};
+     * a bare JSON array is still accepted.
+     */
+    @SuppressWarnings("unchecked")
+    private static List<Map<String, Object>> unwrapList(String responseBody) {
+        String trimmed = responseBody.trim();
+        if (trimmed.startsWith("{")) {
+            Object data = JsonHelper.parseObject(trimmed).get("data");
+            return data instanceof List<?> list ? (List<Map<String, Object>>) list : List.of();
+        }
+        return JsonHelper.parseArray(trimmed);
+    }
+
     List<Map<String, Object>> requestList(String method, String path) {
         return requestList(method, path, null);
     }
@@ -141,7 +155,7 @@ public class Buchida {
                 return List.of();
             }
 
-            return JsonHelper.parseArray(responseBody);
+            return unwrapList(responseBody);
         } catch (BuchidaException e) {
             throw e;
         } catch (IOException | InterruptedException e) {
@@ -155,16 +169,21 @@ public class Buchida {
             errorBody = JsonHelper.parseObject(body);
         } catch (Exception ignored) {}
 
-        String message = errorBody.containsKey("message")
-                ? errorBody.get("message").toString()
+        // Accept nested { error: { code, message } } and legacy top-level { message, code }
+        Map<String, Object> source = errorBody.get("error") instanceof Map<?, ?> nested
+                ? JsonHelper.asObjectMap(nested)
+                : errorBody;
+        String message = source.get("message") != null
+                ? source.get("message").toString()
                 : "Unknown error";
+        String code = source.get("code") != null ? source.get("code").toString() : null;
 
         switch (status) {
             case 401 -> throw new BuchidaException.AuthenticationException(message);
             case 404 -> throw new BuchidaException.NotFoundException(message);
             case 422 -> throw new BuchidaException.ValidationException(message);
             case 429 -> throw new BuchidaException.RateLimitException(message);
-            default -> throw new BuchidaException(message, status);
+            default -> throw new BuchidaException(message, status, code);
         }
     }
 }

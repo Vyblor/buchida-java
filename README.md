@@ -17,7 +17,7 @@ io.buchida is the official Java SDK for **buchida** — an email API built for A
 <dependency>
     <groupId>io.buchida</groupId>
     <artifactId>buchida-java</artifactId>
-    <version>0.1.0</version>
+    <version>0.2.0</version>
 </dependency>
 ```
 
@@ -25,16 +25,47 @@ io.buchida is the official Java SDK for **buchida** — an email API built for A
 
 ```java
 import io.buchida.Buchida;
+import java.util.List;
+import java.util.Map;
 
 Buchida buchida = new Buchida(System.getenv("BUCHIDA_API_KEY"));
 
-buchida.emails().send(new SendEmailRequest.Builder()
-    .from("hello@yourapp.com")
-    .to("user@example.com")
-    .subject("Hello")
-    .html("<h1>Welcome</h1>")
-    .build());
+Map<String, Object> res = buchida.emails().send(Map.of(
+    "from", "hello@yourapp.com",
+    "from_name", "Your App",
+    "to", "user@example.com",
+    "subject", "Hello",
+    "html", "<h1>Welcome</h1>"
+));
+
+// Responses are returned as maps in the API's envelope: the payload is under "data".
+Map<?, ?> email = (Map<?, ?>) res.get("data");
+System.out.println(email.get("id") + " " + email.get("status"));
+
+// Lists: { "data": [...], "cursor": "...", "hasMore": true }
+Map<String, Object> page = buchida.emails().list(Map.of("limit", "20"));
+List<?> items = (List<?>) page.get("data");
+
+// Batch: one entry per input, each { "data": {...} } or { "error": { "code", "message" } }
+List<Map<String, Object>> results = buchida.emails().sendBatch(List.of(
+    Map.of("from", "hello@yourapp.com", "to", "a@example.com", "subject", "A", "text", "hi")
+));
+
+// Other list endpoints return the unwrapped items
+List<Map<String, Object>> domains = buchida.domains().list();
 ```
+
+## Upgrading to 0.2
+
+- Methods returning a `Map` (`emails().send/get/list`, `domains().create/get/verify`,
+  `apiKeys().create`, `webhooks().create`, `templates().get`, `metrics().get`) are unchanged:
+  they return the API envelope, so the payload is under `"data"` (`res.get("data")`).
+  Response fields are snake_case (`created_at`, `from_name`, `reply_to`, ...).
+- Methods returning a `List<Map<String, Object>>` (`emails().sendBatch`, `domains().list`,
+  `apiKeys().list`, `webhooks().list`, `templates().list`) used to return an empty list
+  (they expected a bare JSON array, but the API answers `{"data": [...]}`). They now return the items.
+- New: `"from_name"` is supported in `send`; request bodies use snake_case (`reply_to`,
+  `scheduled_at`); nested API errors (`{"error": {"code", "message"}}`) surface their message and code.
 
 ## Documentation
 

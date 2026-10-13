@@ -17,7 +17,7 @@ io.buchida は AI エージェントのために作られたメール API の公
 <dependency>
     <groupId>io.buchida</groupId>
     <artifactId>buchida-java</artifactId>
-    <version>0.1.0</version>
+    <version>0.2.0</version>
 </dependency>
 ```
 
@@ -25,15 +25,17 @@ io.buchida は AI エージェントのために作られたメール API の公
 
 ```java
 import io.buchida.Buchida;
+import java.util.Map;
 
 Buchida buchida = new Buchida(System.getenv("BUCHIDA_API_KEY"));
 
-buchida.emails().send(new SendEmailRequest.Builder()
-    .from("hello@yourapp.com")
-    .to("user@example.com")
-    .subject("こんにちは")
-    .html("<h1>ようこそ</h1>")
-    .build());
+Map<String, Object> res = buchida.emails().send(Map.of(
+    "from", "hello@yourapp.com",
+    "from_name", "Your App",
+    "to", "user@example.com",
+    "subject", "こんにちは",
+    "html", "<h1>ようこそ</h1>"
+));
 ```
 
 ## ドキュメント

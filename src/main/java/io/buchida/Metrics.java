@@ -15,7 +15,8 @@ public class Metrics {
     }
 
     public Map<String, Object> get(String from, String to, String granularity) {
-        StringBuilder qs = new StringBuilder("from=").append(from).append("&to=").append(to);
+        // The API filters on from_date/to_date; plain from/to were silently ignored.
+        StringBuilder qs = new StringBuilder("from_date=").append(from).append("&to_date=").append(to);
         if (granularity != null) {
             qs.append("&granularity=").append(granularity);
         }

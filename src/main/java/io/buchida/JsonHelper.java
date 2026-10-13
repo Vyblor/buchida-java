@@ -74,6 +74,11 @@ final class JsonHelper {
                 .replace("\t", "\\t");
     }
 
+    @SuppressWarnings("unchecked")
+    static Map<String, Object> asObjectMap(Map<?, ?> map) {
+        return (Map<String, Object>) map;
+    }
+
     static Map<String, Object> parseObject(String json) {
         json = json.trim();
         if (json.startsWith("{")) {
